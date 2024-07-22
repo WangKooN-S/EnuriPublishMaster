@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './css/common.css';
+import './css/style.css';
+import Loader from './loader';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const wrap = ReactDOM.createRoot(document.getElementById('wrap'));
+wrap.render(
   <React.StrictMode>
+    <Loader />
     <App />
   </React.StrictMode>
 );
