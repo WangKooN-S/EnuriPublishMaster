@@ -4,10 +4,11 @@ export async function fetchAllSheetData(onUpdateProgress) {
     
     const totalSheets = sheetNames.length;
     const results = [];
+    const apiKey = process.env.REACT_APP_GOOGLE_SHEETS_API_KEY;
 
     for (let i = 0; i < totalSheets; i++) {
         const sheetName = sheetNames[i].sheetTabName;
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/1lXdQ9Ey_MUwkls8qGii8vxlpoUN1PW9xrFWDcu_eD7Q/values/${sheetName}?alt=json&key=AIzaSyCf0MH3bCW9TXmm0XLZcrP8lP4CCKqX8Fg`;
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/1lXdQ9Ey_MUwkls8qGii8vxlpoUN1PW9xrFWDcu_eD7Q/values/${sheetName}?alt=json&key=${apiKey}`;
 
         try {
             const response = await fetch(url);
