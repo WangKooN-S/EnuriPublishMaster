@@ -1,6 +1,9 @@
 import './App.css';
 
-function App() {
+function App( originalData ) {
+
+  console.log( originalData );
+  
   return (
     <div className="App">
       <header className="App-header">

@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+.loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index: 10000;text-align:center;display:none;background:rgba(0,0,0,.6)}
+.loader__motion {display: inline-block;width: 30px;height: 30px;position: relative;border: 4px solid #Fff;top:calc(50% - 80px);animation: loader 2s infinite ease;}
+.loader__motion__inner {vertical-align: top;display: inline-block;width: 100%;background-color: #fff;animation: loader-inner 2s infinite ease-in;}
+.loader .loader-text{top:50%;position: absolute;left:0;}
+.loader-text{width:100%;font-size:24px;}
+.loader-text em{font-weight:700}
+.loader-text .loader-text__per-num{display:block;margin-top:10px;font-weight: 700;font-size:30px}
+.loader-text .loader-text__per-num:after{content:"%"}
+@keyframes loader {0% {transform: rotate(0deg);}25% {transform: rotate(180deg);}50% {transform: rotate(180deg);}75% {transform: rotate(360deg);}100% {transform: rotate(360deg);}}
+@keyframes loader-inner {0% {height: 0%;}25% {height: 0%;}50% {height: 100%;}75% {height: 100%;}100% {height: 0%;}}
