@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './css/loader.css';
+import { sheetNames } from './js/sheetNames'; 
 
-function Loader({ isComplete, loadingRate  }) {
+function Loader({ isComplete, loadingRate, pageIndex }) {
     const [dispValue, setDisplay] = useState('block');
-    const [pageName, setPageName] = useState('에누리 가격비교 PC');
-
+    
     useEffect(() => {
         if (isComplete) {
             // 데이터 로딩 완료 후 1초 후에 로더를 숨깁니다.
@@ -24,7 +24,7 @@ function Loader({ isComplete, loadingRate  }) {
             </span>
             <span className="loader-text">
                 <span className="loader-text__status">
-                    <em>{pageName}</em> 리스트를<br />가져오는 중입니다.
+                    <em>{sheetNames[pageIndex].sheetShowName}</em> 리스트를<br />가져오는 중입니다.
                 </span>
                 <span className="loader-text__per-num">{loadingRate.toFixed(0)}</span>
             </span>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import './css/common.css';
 import './css/style.css';
@@ -9,12 +9,24 @@ import reportWebVitals from './reportWebVitals';
 
 const Root = () => {
     const [originalData, setOriginalData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [isComplete, setIsComplete] = useState(false);
-    const [loadingRate, updateLoadingRate] = useState(0);
+    const [isComplete, setIsComplete] = useState(false); // 완료 여부
+    const [loadingRate, updateLoadingRate] = useState(0); //로딩 진행률
+    const [pageIndex, updatePageIndex] = useState(() => parseInt(localStorage.getItem('dataFetchIdx')) || 0);
+
+    const rootRef = useRef(null);
+    
+    useEffect(() => {
+        localStorage.setItem('dataFetchIdx', pageIndex);
+    }, [pageIndex]);
+
+    useEffect(() => {
+        // React 렌더링 완료 후 #wrap에 클래스를 추가합니다.
+        if (rootRef.current) {
+            rootRef.current.classList.add('wrap');
+        }
+    }, []);
 
     const updateProgress = (rate) => {
-        console.log(`Update progress function called with rate: ${rate}%`);
         updateLoadingRate(rate);
     };
 
@@ -26,9 +38,7 @@ const Root = () => {
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
-                // 데이터 로딩 후 1초 후에 로더를 숨깁니다.
                 setIsComplete(true);
-                setTimeout(() => setLoading(false), 1000);
             }
         };
 
@@ -37,8 +47,8 @@ const Root = () => {
 
     return (
         <>
-            <Loader loadingRate={loadingRate} isComplete={isComplete} />
-            {!loading && <App data={originalData} />}
+            <Loader loadingRate={loadingRate} isComplete={isComplete} pageIndex={pageIndex} />
+            {isComplete && <App data={originalData} pageIndex={pageIndex} updatePageIndex={updatePageIndex}/>}
         </>
     );
 };
