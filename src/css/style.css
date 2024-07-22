@@ -8,7 +8,7 @@ body {background-color: #242F3F;color:#f9f9f9;font-weight:400;letter-spacing:0}
 
 .wrapper a{color:inherit;}
 
-.title{transition:.3s all ease;position: fixed;top:19px;left:100px;height:40px;line-height:40px;font-size:24px;font-weight:600;}
+.title{transition:.3s all ease;position: fixed;top:19px;left:100px;height:40px;line-height:40px;font-size:28px;font-weight:600;}
 .nav{position:fixed;top:0;left:0;width:200px;bottom:0;background:rgba(10,10,20,.9);z-index: 10;transition: .3s all ease;transform:translateX(-200px)}
 .nav__button{position:absolute;right:20px;width: 40px;top:17px;transform:translateX(100px);transition: .3s all ease;cursor: pointer;}
 .nav__button:after, 
