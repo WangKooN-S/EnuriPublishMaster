@@ -5,17 +5,26 @@ function App( {data, pageIndex, updatePageIndex} ) {
     const [content, setContent] = useState(null);
     const iframeRef = useRef(null);
 
-    // Define the toggleOpen function
     const toggleOpen = (element) => {
         const parentItem = element.closest('.tb-item');
         if (parentItem && !parentItem.classList.contains('nochild')) {
             parentItem.classList.toggle('open');
+            if (!parentItem.classList.contains('open')) {
+                const openChildren = parentItem.querySelectorAll('.tb-item.open');
+                openChildren.forEach(child => child.classList.remove('open'));
+            }
         }
+        return false;
+    };
+
+    const moveToLink = (url) => {
+        window.open(url, '_blank');
         return false;
     };
 
     useEffect(() => {
         window.toggleOpen = toggleOpen;
+        window.moveToLink = moveToLink;
 
         // 페이지 인덱스가 변경될 때마다 content를 업데이트
         if (data && data.length > pageIndex) {
@@ -47,14 +56,13 @@ function App( {data, pageIndex, updatePageIndex} ) {
             let linkContent = [];
             let additionalContent = [];
             Object.entries(item).forEach(([key, value]) => {
-                console.log( key )
                 if (key.startsWith('d')) {
                     // For keys starting with 'd', add value to <a> tag
                     linkContent.push(value);
                 } else if (key !== 'disabled') {
                     // For other keys, wrap in span and add to additionalContent
                     if ( key === 'txuri'){
-                        additionalContent.push(`<span class="tx_uri" onclick="event.stopPropagation();window.open('${value}');">${value}</span>`)
+                        additionalContent.push(`<span class="tx_uri" onclick="event.stopPropagation();moveToLink('${value}');">${value}</span>`)
                     }else{
                         additionalContent.push(`<span class="${key.replace('tx', 'tx_')}">${value}</span>`);
                     }
@@ -63,8 +71,8 @@ function App( {data, pageIndex, updatePageIndex} ) {
 
             // Set the content of itemDiv
             itemDiv.innerHTML = `
-                <a href="#" onclick="toggleOpen(this);">
-                    <span class="tx_tit">${linkContent.join('')}</span>
+                <a href="#" onclick="event.preventDefault();">
+                    <span class="tx_tit" onclick="toggleOpen(this);">${linkContent.join('')}</span>
                     ${additionalContent.join('')}
                 </a>
             `;
@@ -100,17 +108,6 @@ function App( {data, pageIndex, updatePageIndex} ) {
                     }
                 }
             });
-
-            // Attach event listener for `tx-uri` after content is set
-            // document.querySelectorAll('.tx_uri').forEach(uriElement => {
-            //     uriElement.addEventListener('click', (e) => {
-            //         e.preventDefault();
-            //         const url = uriElement.textContent || uriElement.innerText;
-            //         window.open(url, '_blank');
-            //         console.log(e);
-            //     });
-            //     console.log(this)
-            // });
         }, 0);
     };
 
