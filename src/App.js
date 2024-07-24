@@ -5,18 +5,6 @@ function App( {data, pageIndex, updatePageIndex} ) {
     const [content, setContent] = useState(null);
     const [baseUri, setBaseUri] = useState(null);
 
-    useEffect(() => {
-        // 현재 페이지의 호스트를 가져옵니다
-        const currentHost = window.location.hostname;
-    
-        // localhost인 경우와 그렇지 않은 경우에 따라 baseUri를 설정합니다
-        if (currentHost === 'localhost') {
-          setBaseUri('http://localhost');
-        } else {
-          setBaseUri('https://stage1.enuri.com');
-        }
-      }, []);
-
     const toggleOpen = (element) => {
         const parentItem = element.closest('.tb-item');
         if (parentItem && !parentItem.classList.contains('nochild')) {
@@ -31,6 +19,16 @@ function App( {data, pageIndex, updatePageIndex} ) {
 
     useEffect(() => {
         window.toggleOpen = toggleOpen;
+
+        // 현재 페이지의 호스트를 가져옵니다
+        const currentHost = window.location.hostname;
+    
+        // localhost인 경우와 그렇지 않은 경우에 따라 baseUri를 설정합니다
+        if (currentHost === 'localhost') {
+          setBaseUri('http://localhost');
+        } else {
+          setBaseUri('https://stage1.enuri.com');
+        }
 
         // 페이지 인덱스가 변경될 때마다 content를 업데이트
         if (data && data.length > pageIndex) {
