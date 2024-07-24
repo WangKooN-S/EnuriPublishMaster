@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/EnuriPublishMaster/static/css/main.4916e151.css",
-    "main.js": "/EnuriPublishMaster/static/js/main.46fdf151.js",
+    "main.css": "/EnuriPublishMaster/static/css/main.10c330eb.css",
+    "main.js": "/EnuriPublishMaster/static/js/main.ce263ff5.js",
     "static/js/453.0262de6a.chunk.js": "/EnuriPublishMaster/static/js/453.0262de6a.chunk.js",
     "index.html": "/EnuriPublishMaster/index.html",
-    "main.4916e151.css.map": "/EnuriPublishMaster/static/css/main.4916e151.css.map",
-    "main.46fdf151.js.map": "/EnuriPublishMaster/static/js/main.46fdf151.js.map",
+    "main.10c330eb.css.map": "/EnuriPublishMaster/static/css/main.10c330eb.css.map",
+    "main.ce263ff5.js.map": "/EnuriPublishMaster/static/js/main.ce263ff5.js.map",
     "453.0262de6a.chunk.js.map": "/EnuriPublishMaster/static/js/453.0262de6a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4916e151.css",
-    "static/js/main.46fdf151.js"
+    "static/css/main.10c330eb.css",
+    "static/js/main.ce263ff5.js"
   ]
 }
