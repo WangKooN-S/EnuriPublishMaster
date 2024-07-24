@@ -1,9 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sheetNames } from './js/sheetNames'; 
 
 function App( {data, pageIndex, updatePageIndex} ) {
     const [content, setContent] = useState(null);
-    const iframeRef = useRef(null);
+    const [baseUri, setBaseUri] = useState(null);
+
+    useEffect(() => {
+        // 현재 페이지의 호스트를 가져옵니다
+        const currentHost = window.location.hostname;
+    
+        // localhost인 경우와 그렇지 않은 경우에 따라 baseUri를 설정합니다
+        if (currentHost === 'localhost') {
+          setBaseUri('http://localhost');
+        } else {
+          setBaseUri('https://stage1.enuri.com');
+        }
+      }, []);
 
     const toggleOpen = (element) => {
         const parentItem = element.closest('.tb-item');
@@ -17,14 +29,8 @@ function App( {data, pageIndex, updatePageIndex} ) {
         return false;
     };
 
-    const moveToLink = (url) => {
-        window.open(url, '_blank');
-        return false;
-    };
-
     useEffect(() => {
         window.toggleOpen = toggleOpen;
-        window.moveToLink = moveToLink;
 
         // 페이지 인덱스가 변경될 때마다 content를 업데이트
         if (data && data.length > pageIndex) {
@@ -40,54 +46,48 @@ function App( {data, pageIndex, updatePageIndex} ) {
         root.className = 'tb_tree on';
         root.setAttribute('data-sheet-num', pageIndex + 1);
 
-        // Track current level
-        let levelElements = {}; // Store elements by level
+        let levelElements = {};
 
         pageData.forEach((item, idx) => {
+            // console.log( item, idx)
             const level = parseInt(Object.keys(item)[0].replace(/d/, ""), 10);
             const parentLevel = level - 1;
 
-            // Create the item element
             let itemDiv = document.createElement('div');
-            itemDiv.className = `tb-item d${level}`;
+            itemDiv.className = `tb-item d${level} ${item.disabled ? 'disabled' : ''}`;
             itemDiv.setAttribute('data-record-index', idx);
 
-            // Create inner content for <a> tag
             let linkContent = [];
             let additionalContent = [];
             Object.entries(item).forEach(([key, value]) => {
-                if (key.startsWith('d')) {
-                    // For keys starting with 'd', add value to <a> tag
+                if (key.startsWith('d') && key !== 'disabled' ) {
                     linkContent.push(value);
-                } else if (key !== 'disabled') {
-                    // For other keys, wrap in span and add to additionalContent
+                } else {
                     if ( key === 'txuri'){
-                        additionalContent.push(`<span class="tx_uri" onclick="event.stopPropagation();moveToLink('${value}');">${value}</span>`)
+                        additionalContent.push(`<a href="${baseUri}${value}" class="tx_uri" target="_blank">${value}</a>`)
+                    }else if ( key === 'disabled'){
+                        additionalContent.push(`<span class="tag-disabled">사용안함</span>`)
                     }else{
                         additionalContent.push(`<span class="${key.replace('tx', 'tx_')}">${value}</span>`);
                     }
                 }
             });
 
-            // Set the content of itemDiv
             itemDiv.innerHTML = `
-                <a href="#" onclick="event.preventDefault();">
-                    <span class="tx_tit" onclick="toggleOpen(this);">${linkContent.join('')}</span>
+                <div class="tb-item__group">
+                    <button type="button" class="tx_tit" onclick="toggleOpen(this);">${linkContent.join('')}</button>
                     ${additionalContent.join('')}
-                </a>
+                </div>
             `;
 
-            // Add item to the correct parent
             if (level === 1) {
-                // If it's the top level, append directly to the root
                 root.appendChild(itemDiv);
-                levelElements[level] = itemDiv; // Store item for future use
+                levelElements[level] = itemDiv;
             } else {
-                // Otherwise, find the parent at the previous level and append
                 let parent = levelElements[parentLevel];
                 if (parent) {
                     parent.appendChild(itemDiv);
-                    levelElements[level] = itemDiv; // Store item for future use
+                    levelElements[level] = itemDiv;
                 }
             }
         });
@@ -95,9 +95,7 @@ function App( {data, pageIndex, updatePageIndex} ) {
         // Set content state
         setContent(root.outerHTML);
 
-        // Wait for the next event loop iteration to ensure DOM is updated
         setTimeout(() => {
-            // Check for nochild class
             pageData.forEach((_, idx) => {
                 const level = parseInt(Object.keys(pageData[idx])[0].replace(/d/, ""), 10);
                 const itemDiv = document.querySelector(`.tb-item[data-record-index='${idx}']`);
@@ -133,12 +131,12 @@ function App( {data, pageIndex, updatePageIndex} ) {
         document.getElementById('wrap').classList.toggle('menuon');
     };
 
-  // 데이터가 배열인지 확인합니다.
-  if (!Array.isArray(data) || data.length === 0) {
-    return <div>Loading...</div>;
-}
+    // 데이터가 배열인지 확인합니다.
+    if (!Array.isArray(data) || data.length === 0) {
+        return <div>Loading...</div>;
+    }
 
-  return (
+    return (
     <>
         <h1 className="title">{sheetNames[pageIndex].sheetShowName}</h1>
         <div id="menu" className="nav">
@@ -152,50 +150,19 @@ function App( {data, pageIndex, updatePageIndex} ) {
                         className={`nav-menu__item ${index === pageIndex ? 'selected' : ''}`} // index와 pageIndex를 비교
                         data-sheet-num={index + 1}
                         onClick={() => handleMenuClick(index + 1)} // data-sheet-num은 1부터 시작
+                        style={{
+                            '--var-select-color' : sheetNames[index].sheetSelectColor
+                        }}
                     >
                     {sheetNames[index].sheetShowName}
+                    {!sheetNames[index].isAvailable && <span className="tag-no-service">종료</span>}
                     </li>
                 ))}
             </ul>
         </div>
-        <div id="viewer" className="viewer">
-            <button
-                className="viewer__button-close"
-                onClick={() => document.querySelector('.wrapper').classList.remove('mode-m')}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    version="1.1"
-                    id="Layer_1"
-                    x="0px"
-                    y="0px"
-                    width="40px"
-                    height="40px"
-                    viewBox="0 0 121.31 122.876"
-                    enableBackground="new 255 255 255 255"
-                    xmlSpace="preserve"
-                >
-                    <g>
-                        <path
-                            fill="white"
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M90.914,5.296c6.927-7.034,18.188-7.065,25.154-0.068 c6.961,6.995,6.991,18.369,0.068,25.397L85.743,61.452l30.425,30.855c6.866,6.978,6.773,18.28-0.208,25.247 c-6.983,6.964-18.21,6.946-25.074-0.031L60.669,86.881L30.395,117.58c-6.927,7.034-18.188,7.065-25.154,0.068 c-6.961-6.995-6.992-18.369-0.068-25.397l30.393-30.827L5.142,30.568c-6.867-6.978-6.773-18.28,0.208-25.247 c6.983-6.963,18.21-6.946,25.074,0.031l30.217,30.643L90.914,5.296L90.914,5.296z"
-                        ></path>
-                    </g>
-                </svg>
-            </button>
-            <div className="viewer__inner">
-                <div className="viewer__head">
-                    <span className="viewer__text-url">about:blank</span>
-                </div>
-                <iframe id="mFrame" name="mFrame" src="about:blank" frameBorder="0"></iframe>
-            </div>
-        </div>
         <div id="content" className="contents" dangerouslySetInnerHTML={{ __html: content }}></div>
     </>
-  );
+    );
 }
 
 export default App;
