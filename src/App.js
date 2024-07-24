@@ -61,7 +61,10 @@ function App( {data, pageIndex, updatePageIndex} ) {
             let additionalContent = [];
             Object.entries(item).forEach(([key, value]) => {
                 if (key.startsWith('d') && key !== 'disabled' ) {
-                    linkContent.push(value);
+                    // 대괄호를 카테고리 태그로 치환 로직
+                    const updatedValue = value.replace(/\[(.*?)\]/g, '<span class="tag-category">$1</span>');
+                    linkContent.push(updatedValue);
+                    // linkContent.push(value);
                 } else {
                     if ( key === 'txuri'){
                         additionalContent.push(`<a href="${baseUri}${value}" class="tx_uri" target="_blank">${value}</a>`)
