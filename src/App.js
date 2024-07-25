@@ -3,7 +3,7 @@ import { sheetNames } from './js/sheetNames';
 
 function App( {data, pageIndex, updatePageIndex} ) {
     const [content, setContent] = useState(null);
-    const [baseUri, setBaseUri] = useState(null);
+    const [baseUri, setBaseUri] = useState('https://stage1.enuri.com');
 
     const toggleOpen = (element) => {
         const parentItem = element.closest('.tb-item');

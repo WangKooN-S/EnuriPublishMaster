@@ -54,7 +54,7 @@ body {background-color: #242F3F;color:#f9f9f9;font-weight:400;letter-spacing:0}
 .tb-item.d7{font-size:12px}
 .tb-item.d8{font-size:12px}
 
-.tb-item__group{display:flex;padding:12px 20px;position: relative;align-items:center;flex-wrap:wrap;gap:4px;height:20px}
+.tb-item__group{display:flex;padding:12px 20px;position: relative;align-items:center;flex-wrap:wrap;gap:4px;min-height:20px}
 .tb-item.d2 .tb-item__group{padding:10px 20px;}
 .tb-item.d3 .tb-item__group{padding:10px 20px;}
 .tb-item.d4 .tb-item__group{padding:6px 20px}
@@ -63,7 +63,7 @@ body {background-color: #242F3F;color:#f9f9f9;font-weight:400;letter-spacing:0}
 .tb-item.d7 .tb-item__group{padding:6px 20px}
 .tb-item.d8 .tb-item__group{padding:6px 20px}
 
-.tb-item__group .tx_tit{position: relative;display:flex;align-items:center;padding-left:20px;border:0;background-color:transparent;font-size:inherit;gap:0 4px;}
+.tb-item__group .tx_tit{position: relative;display:flex;align-items:center;padding-left:20px;border:0;background-color:transparent;font-size:inherit;gap:0 4px;color:#222}
 .tb-item__group .tx_tit .tag-category{white-space:nowrap;font-size:10px;padding:0 4px;height:16px;line-height:16px;border:1px solid #4a8afc;background-color: #fff;color:#4a8afc;border-radius:4px;font-weight:800}
 .tb-item__group .tx_tit:before,
 .tb-item__group .tx_tit:after{background: #242F3F;content: '';height: 4px;border-radius:24px 24px;left: 0;position: absolute;top: 50%;width: 12px;margin-top:-2px;transition: transform 500ms ease;}
