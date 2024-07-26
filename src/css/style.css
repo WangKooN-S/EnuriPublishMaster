@@ -56,7 +56,7 @@ body {background-color: #242F3F;color:#f9f9f9;font-weight:400;letter-spacing:0}
 
 .tb-item__group{display:flex;padding:12px 20px;position: relative;align-items:center;flex-wrap:wrap;gap:4px;min-height:20px}
 .tb-item.d2 .tb-item__group{padding:10px 20px;}
-.tb-item.d3 .tb-item__group{padding:10px 20px;}
+.tb-item.d3 .tb-item__group{padding:8px 20px;}
 .tb-item.d4 .tb-item__group{padding:6px 20px}
 .tb-item.d5 .tb-item__group{padding:6px 20px}
 .tb-item.d6 .tb-item__group{padding:6px 20px}
@@ -89,7 +89,7 @@ body {background-color: #242F3F;color:#f9f9f9;font-weight:400;letter-spacing:0}
 
 .tb-item.nochild > a span.tx_tit{min-width:140px;}
 .tb-item .tx_Main{white-space:nowrap;font-size:12px;padding:0 6px;height:18px;line-height:18px;background-color:#5a6c85;color:#fff;border-radius:4px;font-weight:400}
-.tb-item .tx_sub{white-space:nowrap;font-size:12px;opacity: .7;padding:0 6px;height:16px;line-height:16px;border:1px dashed #737373;background-color:rgba(0,0,0,0.05);color:#000;border-radius:4px}
+.tb-item .tx_sub{white-space:nowrap;font-size:12px;opacity: .7;padding:0 6px;height:16px;line-height:16px;background-color: #5a6c851c;border: 1px solid #bdbebf;color:#000;border-radius:4px}
 .tb-item .tag-disabled{white-space:nowrap;font-size:12px;padding:0 8px 0 6px;height:16px;line-height:16px;border:1px dashed #dc0530;background-color:#ffedf1;color:#dc0530;border-radius:4px;font-weight:600}
 .tb-item .type{display:none}
 .tb-item .tx_uri{font-size:12px;padding:0 10px;text-decoration: underline;text-underline-position: under; text-decoration-color:#3a7bd534; color:#3a7bd5;position: relative;z-index:10}
